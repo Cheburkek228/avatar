@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}News app{% endblock %}</title>
+<style>
+    body {
+        margin: 0;
+    }
+
+    nav {
+        padding: 1.5em;
+        background-color: cornflowerblue;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration:none;
+        font-weight: bold;
+    }
+    
+    h1 {
+        color: cornflowerblue;
+    }
+</style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    {% block content %}
+    {% endblock %}
+
+    {% block js %}
+    {% endblock %}
+</body>
+</html>

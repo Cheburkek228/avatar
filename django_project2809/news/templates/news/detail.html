@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }} - {{ single_object.article }}
+{% endblock %}
+
+{% block content %}
+<h5>Author: {{ single_object.author }}</h5>
+<h1>{{ single_object.article }}</h1>
+
+{% include 'news/detail_snippet.html' with single_object=single_object %}
+
+{% if perms.user.is_staff %}
+    <a href="/news/edit/{{ single_object.pk }}">Редактировать</a>
+    <a href="/news/delete/{{ single_object.pk }}">Удалить</a>
+    <a href="/news/commentary/{{ single_object.pk }}">Комментировать</a>
+{% endif %}
+
+<h5>Likes: {{ single_object.get_likes }}</h5>
+<form action="/news/like/{{ single_object.pk }}/" method="post">
+    {% csrf_token %}
+    {% if not single_object.get_likes %}
+        <input type="submit" value="Лайк">
+    {% else %}
+        <input type="submit" value="Дизлайк">
+    {% endif %}
+</form>
+
+<h4>
+    ----------------------------<br>
+    Commentaries:
+</h4>
+
+{% for c in single_object.commentary.all %}
+    <p>
+        id: {{ c.pk }},
+        User: {{ c.user }},
+        Time: {{ c.date }}<br>
+        Text: <i>{{ c.text }}</i><br>
+    {% if perms.user.is_staff %}
+        <a href="/news/commentary/{{ c.pk }}/delete/">Удалить</a>
+    {% endif %}
+    </p>       
+
+{% endfor %}
+{% endblock %}
